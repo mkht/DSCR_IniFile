@@ -60,7 +60,7 @@ DscResourcesToExport = @('cIniFile')
 PrivateData = @{
     PSData = @{
         # このモジュールに適用されているタグ。オンライン ギャラリーでモジュールを検出する際に役立ちます。
-        Tags = ('DesiredStateConfiguration','DSC','DSCResource', 'INI', 'INI file')
+        Tags = ('DesiredStateConfiguration','DSC','DSCResource', 'INI')
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/mkht/DSCR_IniFile/blob/master/LICENSE'
