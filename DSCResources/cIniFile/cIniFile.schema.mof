@@ -1,0 +1,12 @@
+
+[ClassVersion("1.0.0.0"), FriendlyName("cIniFile")]
+class cIniFile : OMI_BaseResource
+{
+    [Write, ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+    [Key] String Key;
+    [Required] String Value;
+    [Key] String Path;
+    [key] String Section;
+    [Write] String Encoding;
+};
+
