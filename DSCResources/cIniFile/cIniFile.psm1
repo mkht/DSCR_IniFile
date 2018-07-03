@@ -3,14 +3,14 @@
     Present
 }
 
-function Get-TargetResource
-{
+
+function Get-TargetResource {
     [CmdletBinding()]
     [OutputType([System.Collections.Hashtable])]
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present","Absent")]
+        [ValidateSet("Present", "Absent")]
         [System.String]
         $Ensure = 'Present',
 
@@ -38,63 +38,63 @@ function Get-TargetResource
         $Encoding = 'UTF8'
     )
 
-    if(-not $Section){$Section = '_ROOT_'}
+    if (-not $Section) {$Section = '_ROOT_'}
     [string]$tmpValue = ''
 
     # check file exists
-    if(-not (Test-Path $Path -PathType Leaf)){
+    if (-not (Test-Path $Path -PathType Leaf)) {
         Write-Verbose ('File "{0}" not found.' -f $Path)
         $Ensure = [Ensure]::Absent
     }
-    else{
+    else {
         #Load ini file
         $Ini = Get-IniFile -Path $Path -Encoding $Encoding
 
         # if $key is empty, only check section
-        if(-not $Key){
-            if($Ini.$Section){
+        if (-not $Key) {
+            if ($Ini.$Section) {
                 Write-Verbose ('Desired Section found ([{0}])' -f $Section)
                 $Ensure = [Ensure]::Present
             }
-            else{
+            else {
                 Write-Verbose ('Desired Section NOT found ([{0}])' -f $Section)
                 $Ensure = [Ensure]::Absent
             }
         }
         # check section and key exists
-        elseif($tmpValue = $Ini.$Section.$key){
+        elseif ($tmpValue = $Ini.$Section.$key) {
             # check value
             Write-Verbose ('Current KVP (Key:"{0}"; Value:"{1}"; Section:"{2}")' -f $Key, $tmpValue, $Section)
-            if($Value -ceq $tmpValue){
+            if ($Value -ceq $tmpValue) {
                 $Ensure = [Ensure]::Present
             }
-            else{
+            else {
                 $Ensure = [Ensure]::Absent
             }
         }
-        else{
+        else {
             Write-Verbose ('Desired Key or Section not found.')
             $Ensure = [Ensure]::Absent
         }
     }
 
     $returnValue = @{
-        Ensure = $Ensure
-        Path = $Path
-        Key = $Key
-        Value = $tmpValue
+        Ensure  = $Ensure
+        Path    = $Path
+        Key     = $Key
+        Value   = $tmpValue
         Section = $PSBoundParameters.Section
     }
 
     $returnValue
 } # end of Get-TargetResource
 
-function Set-TargetResource
-{
+
+function Set-TargetResource {
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present","Absent")]
+        [ValidateSet("Present", "Absent")]
         [System.String]
         $Ensure = 'Present',
 
@@ -122,23 +122,23 @@ function Set-TargetResource
         $Encoding = 'UTF8'
     )
 
-    if(-not $Section){$Section = '_ROOT_'}
+    if (-not $Section) {$Section = '_ROOT_'}
 
     # Ensure = "Absent"
-    if($Ensure -eq [Ensure]::Absent){
-        if(Test-Path $Path){
+    if ($Ensure -eq [Ensure]::Absent) {
+        if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
             $content = Get-IniFile -Path $Path -Encoding $Encoding | Remove-IniKey -Key $Key -Section $Section -PassThru | Out-IniString
             $content | Out-File -FilePath $Path -Encoding $Encoding -Force
         }
     }
-    else{
+    else {
         # Ensure = "Present"
         $Ini = [ordered]@{}
-        if(Test-Path $Path){
+        if (Test-Path $Path) {
             $Ini = Get-IniFile -Path $Path -Encoding $Encoding
         }
-        else{
+        else {
             Write-Verbose ("Create new file '{0}'" -f $Path)
             New-Item $Path -ItemType File -Force
         }
@@ -147,14 +147,14 @@ function Set-TargetResource
     }
 } # end of Set-TargetResource
 
-function Test-TargetResource
-{
+
+function Test-TargetResource {
     [CmdletBinding()]
     [OutputType([System.Boolean])]
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present","Absent")]
+        [ValidateSet("Present", "Absent")]
         [System.String]
         $Ensure = 'Present',
 
@@ -182,27 +182,27 @@ function Test-TargetResource
         $Encoding = 'UTF8'
     )
 
-    if(-not $Section){$Section = '_ROOT_'}
+    if (-not $Section) {$Section = '_ROOT_'}
 
     $cState = (Get-TargetResource @PSBoundParameters)
-    $ret =  $cState.Ensure -eq $Ensure
-    if($ret){
+    $ret = $cState.Ensure -eq $Ensure
+    if ($ret) {
         Write-Verbose ('Test Passed. Nothing needs to do')
     }
-    else{
+    else {
         Write-Verbose "Test NOT Passed."
     }
     return $ret
 } # end of Test-TargetResource
 
-function Get-IniFile
-{
+
+function Get-IniFile {
     [CmdletBinding()]
     param
     (
         # Set Target full path to INI
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
-        [validateScript({Test-Path $_})]
+        [validateScript( {Test-Path $_})]
         [Alias('File')]
         [string]
         $Path,
@@ -213,34 +213,33 @@ function Get-IniFile
         $Encoding = "ASCII"
     )
 
-    process
-    {
+    process {
         # Write-Verbose ("Loading file from {0}" -f $Path)
         $Content = Get-Content -Path $Path -Encoding $Encoding
         $CurrentSection = '_ROOT_'
         [System.Collections.Specialized.OrderedDictionary]$IniHash = [ordered]@{}
         $IniHash.Add($CurrentSection, [ordered]@{})
 
-        foreach($line in $Content){
+        foreach ($line in $Content) {
             $line = $line.Trim()
-            if($line -match '^;'){
+            if ($line -match '^;') {
                 # Write-Verbose ("Comment")
                 $line = ($line.split(';')[0]).Trim()
             }
 
-            if($line -match '^\[(.+)\]'){
+            if ($line -match '^\[(.+)\]') {
                 # Section
                 $CurrentSection = $Matches[1]
-                if(-not $IniHash.Contains($CurrentSection)){
+                if (-not $IniHash.Contains($CurrentSection)) {
                     # Write-Verbose ('Add Section. Section: {0}' -f $Matches[1])
                     $IniHash.Add($CurrentSection, [ordered]@{})
                 }
             }
-            elseif($line -match '='){
+            elseif ($line -match '=') {
                 #KeyValuePair
                 $idx = $line.IndexOf('=')
-                [string]$key = $line.Substring(0,$idx)
-                [string]$value = $line.Substring($idx+1)
+                [string]$key = $line.Substring(0, $idx)
+                [string]$value = $line.Substring($idx + 1)
                 # Write-Verbose ('Add KVP. Key: {0}, Value: {1}, Section: {2}' -f $key,$value,$CurrentSection)
                 $IniHash.$CurrentSection.$key = $value
             }
@@ -249,8 +248,7 @@ function Get-IniFile
     }
 }
 
-function Out-IniString
-{
+function Out-IniString {
     [CmdletBinding()]
     param
     (
@@ -259,25 +257,25 @@ function Out-IniString
         $InputObject
     )
 
-    Process{
+    Process {
         [string[]]$IniString = @()
-        if($InputObject.Contains('_ROOT_')){
-            if($InputObject.'_ROOT_' -as [hashtable]){
+        if ($InputObject.Contains('_ROOT_')) {
+            if ($InputObject.'_ROOT_' -as [hashtable]) {
                 $private:Keys = $InputObject.'_ROOT_'
-                $Keys.Keys.ForEach({
-                    $IniString += ('{0}={1}' -f $_, $Keys.$_)
-                })
+                $Keys.Keys.ForEach( {
+                        $IniString += ('{0}={1}' -f $_, $Keys.$_)
+                    })
             }
         }
 
-        foreach($Section in $InputObject.keys){
-            if(-not ($Section -eq '_ROOT_')){
-                if($InputObject.$Section -as [hashtable]){
+        foreach ($Section in $InputObject.keys) {
+            if (-not ($Section -eq '_ROOT_')) {
+                if ($InputObject.$Section -as [hashtable]) {
                     $IniString += ('[{0}]' -f $Section)
                     $private:Keys = $InputObject.$Section
-                    $Keys.Keys.ForEach({
-                        $IniString += ('{0}={1}' -f $_, $Keys.$_)
-                    })
+                    $Keys.Keys.ForEach( {
+                            $IniString += ('{0}={1}' -f $_, $Keys.$_)
+                        })
                 }
             }
         }
@@ -286,8 +284,8 @@ function Out-IniString
 
 }
 
-function Set-IniKey
-{
+
+function Set-IniKey {
     [CmdletBinding()]
     param
     (
@@ -309,35 +307,35 @@ function Set-IniKey
         [switch]$PassThru
     )
 
-    Process{
-        if($InputObject.Contains($Section)){
-            if($Key){
-                if($InputObject.$Section.Contains($Key)){
+    Process {
+        if ($InputObject.Contains($Section)) {
+            if ($Key) {
+                if ($InputObject.$Section.Contains($Key)) {
                     Write-Verbose ("Update value. Key:'{0}'; Value:'{1}'; Section:'{2}'" -f $key, $Value, $Section)
                     $InputObject.$Section.$Key = $Value
                 }
-                else{
+                else {
                     Write-Verbose ("Set value. Key:'{0}'; Value:'{1}'; Section:'{2}'" -f $key, $Value, $Section)
                     $InputObject.$Section.Add($Key, $Value)
                 }
             }
         }
-        else{
+        else {
             $InputObject.Add($Section, [System.Collections.Specialized.OrderedDictionary]@{})
-            if($Key){
+            if ($Key) {
                 Write-Verbose ("Set value. Key:'{0}'; Value:'{1}'; Section:'{2}'" -f $key, $Value, $Section)
                 $InputObject.$Section.Add($Key, $Value)
             }
         }
 
-        if($PassThru){
+        if ($PassThru) {
             $InputObject
         }
     }
 }
 
-function Remove-IniKey
-{
+
+function Remove-IniKey {
     [CmdletBinding()]
     param
     (
@@ -355,19 +353,19 @@ function Remove-IniKey
         [switch]$PassThru
     )
 
-    Process{
-        if($InputObject.Contains($Section)){
-            if($Key){
-                if($InputObject.$Section.Contains($Key)){
+    Process {
+        if ($InputObject.Contains($Section)) {
+            if ($Key) {
+                if ($InputObject.$Section.Contains($Key)) {
                     $InputObject.$Section.Remove($key)
                 }
             }
-            else{
+            else {
                 $InputObject.Remove($Section)
             }
         }
 
-        if($PassThru){
+        if ($PassThru) {
             $InputObject
         }
     }
