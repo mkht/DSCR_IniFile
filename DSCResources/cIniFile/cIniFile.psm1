@@ -62,15 +62,11 @@ function Get-TargetResource {
             }
         }
         # check section and key exists
-        elseif ($tmpValue = $Ini.$Section.$key) {
+        elseif ($Ini.$Section.Contains($Key)) {
             # check value
             Write-Verbose ('Current KVP (Key:"{0}"; Value:"{1}"; Section:"{2}")' -f $Key, $tmpValue, $Section)
-            if ($Value -ceq $tmpValue) {
-                $Ensure = [Ensure]::Present
-            }
-            else {
-                $Ensure = [Ensure]::Absent
-            }
+            $Ensure = [Ensure]::Present
+            $tmpValue = $Ini.$Section.$Key
         }
         else {
             Write-Verbose ('Desired Key or Section not found.')
@@ -184,15 +180,41 @@ function Test-TargetResource {
 
     if (-not $Section) {$Section = '_ROOT_'}
 
-    $cState = (Get-TargetResource @PSBoundParameters)
-    $ret = $cState.Ensure -eq $Ensure
-    if ($ret) {
+    $Ret = ($Ensure -eq [Ensure]::Present)
+
+
+    if (-not (Test-Path -Path $Path -PathType Leaf)) {
+        $Ret = !$Ret
+    }
+    else {
+        $ini = Get-IniFile -Path $Path -Encoding $Encoding
+
+        if ($ini.$Section) {
+            if ($ini.$Section.Contains($Key)) {
+                if ($Value -ceq $ini.$Section.$Key) {
+                    $Ret = $Ret
+                }
+                else {
+                    $Ret = $false
+                }
+            }
+            else {
+                $Ret = !$Ret
+            }
+        }
+        else {
+            $Ret = !$Ret
+        }
+    }
+
+    if ($Ret) {
         Write-Verbose ('Test Passed. Nothing needs to do')
     }
     else {
         Write-Verbose "Test NOT Passed."
     }
-    return $ret
+    
+    return $Ret
 } # end of Test-TargetResource
 
 
