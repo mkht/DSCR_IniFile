@@ -23,10 +23,10 @@ function Get-TargetResource
         [System.String]
         $Key,
 
-        [parameter(Mandatory = $true)]
+        [parameter(Mandatory = $false)]
         [AllowEmptyString()]
         [System.String]
-        $Value,
+        $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
@@ -107,10 +107,10 @@ function Set-TargetResource
         [System.String]
         $Key,
 
-        [parameter(Mandatory = $true)]
+        [parameter(Mandatory = $false)]
         [AllowEmptyString()]
         [System.String]
-        $Value,
+        $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
@@ -167,10 +167,10 @@ function Test-TargetResource
         [System.String]
         $Key,
 
-        [parameter(Mandatory = $true)]
+        [parameter(Mandatory = $false)]
         [AllowEmptyString()]
         [System.String]
-        $Value,
+        $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
@@ -299,9 +299,9 @@ function Set-IniKey
         [AllowEmptyString()]
         [string]$Key,
 
-        [Parameter(Mandatory)]
+        [Parameter()]
         [AllowEmptyString()]
-        [string]$Value,
+        [string]$Value = '',
 
         [Parameter()]
         [string]$Section = '_ROOT_',
