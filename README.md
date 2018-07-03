@@ -25,8 +25,9 @@ PowerShell DSC Resource to create ini file.
 + [string] **Key** (Key):
     + Key element.
 
-+ [string] **Value** (Required):
++ [string] **Value** (Write):
     + The value corresponding to the key.
+    + If this param not specified, will set empty string `""`.
 
 + [string] **Section** (Key):
     + The section to which the key belongs.
@@ -70,4 +71,8 @@ Fruit_B=Banana
 Animal_A=Ant
 ```
 
+----
 ## ChangeLog
+
++ **1.1.0**
+    - `Value` param is no longer mandatory.

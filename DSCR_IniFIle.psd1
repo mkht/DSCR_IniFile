@@ -12,7 +12,7 @@
 # RootModule = ''
 
 # このモジュールのバージョン番号です。
-ModuleVersion = '1.0.2'
+ModuleVersion = '1.1.0'
 
 # このモジュールを一意に識別するために使用される ID
 GUID = '372ae78d-ef58-4c3d-8df7-987d07f9a1c2'
@@ -24,7 +24,7 @@ Author = 'mkht'
 CompanyName = ''
 
 # このモジュールの著作権情報
-Copyright = '(c) 2017 mkht. All rights reserved.'
+Copyright = '(c) 2018 mkht. All rights reserved.'
 
 # このモジュールの機能の説明
 Description = 'PowerShell DSC Resource to create INI file.'
