@@ -74,5 +74,6 @@ Animal_A=Ant
 ----
 ## ChangeLog
 
-+ **1.1.0**
++ **1.1.1**
+    - Fixed issue that does not work correctly when `Ensure = "Absent"` [#1](https://github.com/mkht/DSCR_IniFile/issues/1)
     - `Value` param is no longer mandatory.
