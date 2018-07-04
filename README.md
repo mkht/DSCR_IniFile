@@ -75,7 +75,7 @@ Animal_A=Ant
 ----
 ## ChangeLog
 
-+ **Not released**
++ **1.2.0**
     - Check section only when `Key = ""` [#1](https://github.com/mkht/DSCR_IniFile/issues/2)
 
 + **1.1.1**
