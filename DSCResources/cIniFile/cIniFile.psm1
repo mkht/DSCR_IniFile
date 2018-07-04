@@ -190,7 +190,11 @@ function Test-TargetResource {
         $ini = Get-IniFile -Path $Path -Encoding $Encoding
 
         if ($ini.$Section) {
-            if ($ini.$Section.Contains($Key)) {
+            # if $key is empty, only check whether section is exist or not
+            if(-not $Key){
+                $Ret = $Ret
+            }
+            elseif ($ini.$Section.Contains($Key)) {
                 if ($Value -ceq $ini.$Section.$Key) {
                     $Ret = $Ret
                 }
@@ -380,8 +384,15 @@ function Remove-IniKey {
             if ($Key) {
                 if ($InputObject.$Section.Contains($Key)) {
                     $InputObject.$Section.Remove($key)
+
+                    # when all key is removed, also remove section 
+                    if ($InputObject.$Section.Count -le 0) {
+                        $InputObject.Remove($Section)
+                    }
                 }
             }
+
+            # if key is empty, remove section and all of child keys
             else {
                 $InputObject.Remove($Section)
             }

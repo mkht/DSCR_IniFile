@@ -18,6 +18,7 @@ Key3=
 [SectionA]
 KeySA1=ValueSA1
 KeySA2=ValueSA2
+[SectionB]
 
 "@
 
@@ -32,6 +33,8 @@ KeySA2=ValueSA2
             KeySA1 = 'ValueSA1'
             KeySA2 = 'ValueSA2'
         }
+
+        SectionB = [ordered]@{}
     }
 
     #endregion Set variables for testing
@@ -171,7 +174,7 @@ KeySA2=ValueSA2
     }
     #endregion Tests for Get-TargetResource
 
-    #region Tests for Set-TargetResource
+    #region Tests for Test-TargetResource
     Describe 'cIniFile/Test-TargetResource' {
 
         Mock Get-IniFile {
@@ -205,6 +208,30 @@ KeySA2=ValueSA2
                     Key     = 'KeySA1'
                     Value   = 'ValueSA1'
                     Section = 'SectionA'
+                }
+                    
+                Test-TargetResource @getParam | Should -Be $true
+            }
+
+
+            It 'Should return $true when the Key param is empty and section exist (not empty section)' {
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $ExistMock
+                    Key     = ''
+                    Section = 'SectionA'
+                }
+                    
+                Test-TargetResource @getParam | Should -Be $true
+            }
+
+
+            It 'Should return $true when the Key param is empty and section exist (empty section)' {
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $ExistMock
+                    Key     = ''
+                    Section = 'SectionB'
                 }
                     
                 Test-TargetResource @getParam | Should -Be $true
@@ -316,12 +343,24 @@ KeySA2=ValueSA2
             }
 
 
-            It 'Should return $true when the section not exist' {
+            It 'Should return $true when the section not exist (not empty section)' {
                 $getParam = @{
                     Ensure  = 'Absent'
                     Path    = $ExistMock
                     Key     = 'KeySA1'
                     Value   = 'ValueSA1'
+                    Section = 'SectionX'
+                }
+                    
+                Test-TargetResource @getParam | Should -Be $true
+            }
+
+
+            It 'Should return $true when the section not exist (empty section)' {
+                $getParam = @{
+                    Ensure  = 'Absent'
+                    Path    = $ExistMock
+                    Key     = ''
                     Section = 'SectionX'
                 }
                     
@@ -378,9 +417,21 @@ KeySA2=ValueSA2
                     
                 Test-TargetResource @getParam | Should -Be $false
             }
+
+
+            It 'Should return $false when the section exist (empty section)' {
+                $getParam = @{
+                    Ensure  = 'Absent'
+                    Path    = $ExistMock
+                    Key     = ''
+                    Section = 'SectionB'
+                }
+                    
+                Test-TargetResource @getParam | Should -Be $false
+            }
         }
     }
-    #endregion Tests for Set-TargetResource
+    #endregion Tests for Test-TargetResource
 
     
     #region Tests for Set-TargetResource
@@ -398,6 +449,8 @@ KeySA2=ValueSA2
                     KeySA1 = 'ValueSA1'
                     KeySA2 = 'ValueSA2'
                 }
+
+                SectionB = [ordered]@{}
             }
         }
 
@@ -465,16 +518,32 @@ KeySA2=ValueSA2
                 $getParam = @{
                     Ensure  = 'Present'
                     Path    = $path
-                    Key     = 'KeySB1'
-                    Value   = 'ValueSB1'
-                    Section = 'SectionB'
+                    Key     = 'KeySC1'
+                    Value   = 'ValueSC1'
+                    Section = 'SectionC'
                 }
                     
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
-                $content[6] | Should -Be '[SectionB]'
-                $content[7] | Should -Be 'KeySB1=ValueSB1'
+                $content[7] | Should -Be '[SectionC]'
+                $content[8] | Should -Be 'KeySC1=ValueSC1'
+            }
+
+
+            It 'Add only Section to ini' {
+                $path = (Join-Path $TestDrive 'MockIni.ini')
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $path
+                    Key     = ''
+                    Section = 'SectionC'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[7] | Should -Be '[SectionC]'
             }
 
             It 'Mod Value (ROOT section)' {
@@ -573,6 +642,22 @@ KeySA2=ValueSA2
             }
 
 
+            It 'Nothing to do if target section not exist ()' {
+                $path = (Join-Path $TestDrive 'MockIni.ini')
+                $getParam = @{
+                    Ensure  = 'Absent'
+                    Path    = $path
+                    Key     = ''
+                    Section = 'SectionX'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                $content = Get-Content -Path $path -Raw -Encoding utf8
+                $content | Should -Be $MockIniFile1
+            }
+
+
             It 'Remove Key (ROOT section)' {
                 $path = (Join-Path $TestDrive 'MockIni.ini')
                 $getParam = @{
@@ -601,9 +686,41 @@ KeySA2=ValueSA2
 
                 $path | Should -Not -FileContentMatch 'KeySA1'
             }
+
+
+            It 'Remove Section and all of child keys (not empty section)' {
+                $path = (Join-Path $TestDrive 'MockIni.ini')
+                $getParam = @{
+                    Ensure  = 'Absent'
+                    Path    = $path
+                    Key     = ''
+                    Section = 'SectionA'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                $path | Should -Not -FileContentMatch 'SectionA'
+                $path | Should -Not -FileContentMatch 'KeySA1'
+                $path | Should -Not -FileContentMatch 'KeySA2'
+            }
+
+
+            It 'Remove Section (empty section)' {
+                $path = (Join-Path $TestDrive 'MockIni.ini')
+                $getParam = @{
+                    Ensure  = 'Absent'
+                    Path    = $path
+                    Key     = ''
+                    Section = 'SectionB'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                $path | Should -Not -FileContentMatch 'SectionB'
+            }
         }
     }
-    #endregion Tests for Test-TargetResource
+    #endregion Tests for Set-TargetResource
 
     #region Tests for Get-IniFile
     Describe 'cIniFile/Get-IniFile' {
@@ -622,7 +739,7 @@ KeySA2=ValueSA2
             $result = Get-IniFile -Path 'TestDrive:\MocIni1.ini'
     
             $result | Should -BeOfType System.Collections.Specialized.OrderedDictionary
-            $result.Count | Should -Be 2
+            $result.Count | Should -Be 3
             $result._ROOT_.Count | Should -Be 3
             $result._ROOT_.Key1 | Should -Be 'Value1'
             $result._ROOT_.Key2 | Should -Be 'Value2'
@@ -630,6 +747,7 @@ KeySA2=ValueSA2
             $result.SectionA.Count | Should -Be 2
             $result.SectionA.KeySA1 | Should -Be 'ValueSA1'
             $result.SectionA.KeySA2 | Should -Be 'ValueSA2'
+            $result.SectionB.Count | Should -Be 0
         }
     }
 }
