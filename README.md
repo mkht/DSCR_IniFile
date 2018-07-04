@@ -24,6 +24,7 @@ PowerShell DSC Resource to create ini file.
 
 + [string] **Key** (Key):
     + Key element.
+    + If you specified key as empty string, cIniFile only check the section.
 
 + [string] **Value** (Write):
     + The value corresponding to the key.
@@ -73,6 +74,9 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
+
++ **Not released**
+    - Check section only when `Key = ""` [#1](https://github.com/mkht/DSCR_IniFile/issues/2)
 
 + **1.1.1**
     - Fixed issue that does not work correctly when `Ensure = "Absent"` [#1](https://github.com/mkht/DSCR_IniFile/issues/1)
