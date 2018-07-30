@@ -79,7 +79,7 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
-+ **Unrelerased**
++ **2.0.0**
     - Added *NewLine* property for specifying the new line code. (`CRLF` or `LF`)
     - You can now specify `UTF8NoBOM` as Encoding.
     - **[DEPRECATED]** Encoding parameters `UTF7` and `BigEndianUTF32` have been deprecated.
