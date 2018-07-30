@@ -80,9 +80,9 @@ Animal_A=Ant
 ----
 ## ChangeLog
 + **2.0.0**
-    - Added *NewLine* property for specifying the new line code. (`CRLF` or `LF`)
+    - Added **NewLine** property for specifying the new line code. (`CRLF` or `LF`)
     - You can now specify `UTF8NoBOM` as Encoding.
-    - **[DEPRECATED]** Encoding parameters `UTF7` and `BigEndianUTF32` have been deprecated.
+    - **[DEPRECATED]** Encoding options `UTF7` and `BigEndianUTF32` have been deprecated.
 
 + **1.2.0**
     - Check section only when `Key = ""` [#1](https://github.com/mkht/DSCR_IniFile/issues/2)
