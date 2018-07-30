@@ -3,6 +3,17 @@
     Present
 }
 
+Enum Encoding {
+    Default
+    utf8
+    utf8NoBOM
+    utf8BOM
+    utf32
+    unicode
+    bigendianunicode
+    ascii
+}
+
 
 function Get-TargetResource {
     [CmdletBinding()]
@@ -32,10 +43,15 @@ function Get-TargetResource {
         [AllowEmptyString()]
         [System.String]
         $Section = '_ROOT_',
+        
+        [Parameter(Mandatory = $false)]
+        [Encoding]
+        $Encoding = 'utf8BOM',
 
-        [parameter()]
-        [Microsoft.PowerShell.Commands.FileSystemCmdletProviderEncoding]
-        $Encoding = 'UTF8'
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('CRLF', 'LF')]
+        [string]
+        $NewLine = 'CRLF'
     )
 
     if (-not $Section) {$Section = '_ROOT_'}
@@ -113,10 +129,17 @@ function Set-TargetResource {
         [System.String]
         $Section = '_ROOT_',
 
-        [parameter()]
-        [Microsoft.PowerShell.Commands.FileSystemCmdletProviderEncoding]
-        $Encoding = 'UTF8'
+        [Parameter(Mandatory = $false)]
+        [Encoding]
+        $Encoding = 'utf8BOM',
+
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('CRLF', 'LF')]
+        [string]
+        $NewLine = 'CRLF'
     )
+
+    $PSEncoder = Get-PSEncoding -Encoding $Encoding
 
     if (-not $Section) {$Section = '_ROOT_'}
 
@@ -125,7 +148,14 @@ function Set-TargetResource {
         if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
             $content = Get-IniFile -Path $Path -Encoding $Encoding | Remove-IniKey -Key $Key -Section $Section -PassThru | Out-IniString
-            $content | Out-File -FilePath $Path -Encoding $Encoding -Force
+            
+            #Output Ini file
+            if (('utf8', 'utf8NoBOM') -eq $Encoding) {
+                $content | Out-String | Convert-NewLine -NewLine $NewLine | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $Path -Encoding Byte -NoNewline -Force
+            }
+            else {
+                $content | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
+            }
         }
     }
     else {
@@ -139,7 +169,14 @@ function Set-TargetResource {
             New-Item $Path -ItemType File -Force
         }
         $content = $Ini | Set-IniKey -Key $Key -Value $Value -Section $Section -PassThru | Out-IniString
-        $content | Out-File -FilePath $Path -Encoding $Encoding -Force
+
+        #Output Ini file
+        if (('utf8', 'utf8NoBOM') -eq $Encoding) {
+            $content | Out-String | Convert-NewLine -NewLine $NewLine | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $Path -Encoding Byte -NoNewline -Force
+        }
+        else {
+            $content | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
+        }
     }
 } # end of Set-TargetResource
 
@@ -173,9 +210,14 @@ function Test-TargetResource {
         [System.String]
         $Section = '_ROOT_',
 
-        [parameter()]
-        [Microsoft.PowerShell.Commands.FileSystemCmdletProviderEncoding]
-        $Encoding = 'UTF8'
+        [Parameter(Mandatory = $false)]
+        [Encoding]
+        $Encoding = 'utf8BOM',
+
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('CRLF', 'LF')]
+        [string]
+        $NewLine = 'CRLF'
     )
 
     if (-not $Section) {$Section = '_ROOT_'}
@@ -191,7 +233,7 @@ function Test-TargetResource {
 
         if ($ini.$Section) {
             # if $key is empty, only check whether section is exist or not
-            if(-not $Key){
+            if (-not $Key) {
                 $Ret = $Ret
             }
             elseif ($ini.$Section.Contains($Key)) {
@@ -234,14 +276,15 @@ function Get-IniFile {
         $Path,
 
         # specify file encoding
-        [Parameter()]
-        [Microsoft.PowerShell.Commands.FileSystemCmdletProviderEncoding]
-        $Encoding = "ASCII"
+        [Parameter(Mandatory = $false)]
+        [Encoding]
+        $Encoding = 'utf8BOM'
     )
 
     process {
         # Write-Verbose ("Loading file from {0}" -f $Path)
-        $Content = Get-Content -Path $Path -Encoding $Encoding
+        $PSEncoder = Get-PSEncoding -Encoding $Encoding
+        $Content = Get-Content -Path $Path -Encoding $PSEncoder
         $CurrentSection = '_ROOT_'
         [System.Collections.Specialized.OrderedDictionary]$IniHash = [ordered]@{}
         $IniHash.Add($CurrentSection, [ordered]@{})
@@ -400,6 +443,49 @@ function Remove-IniKey {
 
         if ($PassThru) {
             $InputObject
+        }
+    }
+}
+
+
+function Convert-NewLine {
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory, Position = 0, ValueFromPipeline)]
+        [string]
+        $InputObject,
+
+        [Parameter(Position = 1)]
+        [ValidateSet('CRLF', 'LF')]
+        [string]
+        $NewLine = 'CRLF'
+        
+    )
+
+    if ($NewLine -eq 'LF') {
+        $InputObject.Replace("`r`n", "`n")
+    }
+    else {
+        $InputObject -replace "[^\r]\n", "`r`n"
+    }
+}
+
+
+function Get-PSEncoding {
+    [OutputType([string])]
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [Encoding]
+        $Encoding
+    )
+
+    switch -wildcard ($Encoding) {
+        'utf8*' {
+            'utf8'
+            break
+        }
+        Default {
+            $_.toString()
         }
     }
 }
