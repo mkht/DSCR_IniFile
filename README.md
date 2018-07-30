@@ -35,8 +35,13 @@ PowerShell DSC Resource to create ini file.
     + **If the key doesn't need to belong section, you should set the value for an empty string.** `""`
 
 + [string] **Encoding** (Write):
-    + You can choose text encoding for the ini file.
-    + **UTF8** (default) / UTF7 / UTF32 / Ascii / Unicode / BigEndianUnicode / BigEndianUTF32
+    + You can choose text encoding for the INI file.
+    + utf8BOM (default) / utf8NoBOM / utf32 / unicode / bigendianunicode / ascii
+
++ [string] **NewLine** (Write):
+    + You can choose new line code for the INI file.
+    + CRLF (default) / LF
+
 
 ## Examples
 + **Example 1**: Sample configuration
@@ -74,6 +79,10 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
++ **Unrelerased**
+    - Added *NewLine* property for specifying the new line code. (`CRLF` or `LF`)
+    - You can now specify `UTF8NoBOM` as Encoding.
+    - **[DEPRECATED]** Encoding parameters `UTF7` and `BigEndianUTF32` have been deprecated.
 
 + **1.2.0**
     - Check section only when `Key = ""` [#1](https://github.com/mkht/DSCR_IniFile/issues/2)
