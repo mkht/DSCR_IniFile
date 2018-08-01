@@ -85,7 +85,7 @@ Animal_A=Ant
     - **[DEPRECATED]** Encoding options `UTF7` and `BigEndianUTF32` have been deprecated.
 
 + **1.2.0**
-    - Check section only when `Key = ""` [#](https://github.com/mkht/DSCR_IniFile/issues/2)
+    - Check section only when `Key = ""` [#2](https://github.com/mkht/DSCR_IniFile/issues/2)
 
 + **1.1.1**
     - Fixed issue that does not work correctly when `Ensure = "Absent"` [#1](https://github.com/mkht/DSCR_IniFile/issues/1)
