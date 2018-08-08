@@ -4,7 +4,7 @@ Param(
 
     [Parameter(Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
-    [string[]]$ExcludeDir = @('.git'),
+    [string[]]$ExcludeDir = @('.git', 'Tests'),
 
     [switch]$WhatIf
 )

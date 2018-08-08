@@ -1,8 +1,11 @@
-#region HEADER
+﻿#region HEADER
 
 $script:moduleRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 Import-Module (Join-Path $script:moduleRoot '\DSCResources\cIniFile\cIniFile.psm1') -Force
+Import-Module (Join-Path $PSScriptRoot '\TestHelper\TestHelper.psm1') -Force
+
+#endregion HEADER
 
 # Begin Testing
 InModuleScope 'cIniFile' {
@@ -717,6 +720,167 @@ KeySA2=ValueSA2
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $path | Should -Not -FileContentMatch 'SectionB'
+            }
+        }
+
+
+        Context 'Encoding' {
+
+            It 'Create new INI file NOT specified encoding should be UTF8 with BOM' {
+                $path = (Join-Path $TestDrive 'NonSpecified.ini')
+
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $path
+                    Section = 'Section'
+                    Key     = 'Key'
+                    Value   = 'あいうえお'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+
+                (Get-Encoding -Path $path).BodyName | Should -Be 'utf-8'
+                Test-BOM -Path $path | Should -Be 'utf8BOM'
+            }
+            
+            It 'Create new INI file specified encoding (UTF8NoBOM)' {
+                $path = (Join-Path $TestDrive 'UTF8NoBOM.ini')
+
+                $getParam = @{
+                    Ensure   = 'Present'
+                    Path     = $path
+                    Section  = 'Section'
+                    Key      = 'Key'
+                    Value    = 'あいうえお'
+                    Encoding = 'UTF8NoBOM'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+
+                (Get-Encoding -Path $path).BodyName | Should -Be 'utf-8'
+                Test-BOM -Path $path | Should -Be $null #NoBOM
+            }
+
+            It 'Create new INI file specified encoding (UTF8BOM)' {
+                $path = (Join-Path $TestDrive 'UTF8BOM.ini')
+
+                $getParam = @{
+                    Ensure   = 'Present'
+                    Path     = $path
+                    Section  = 'Section'
+                    Key      = 'Key'
+                    Value    = 'あいうえお'
+                    Encoding = 'UTF8BOM'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+
+                (Get-Encoding -Path $path).BodyName | Should -Be 'utf-8'
+                Test-BOM -Path $path | Should -Be 'utf8BOM'
+            }
+
+            It 'Create new INI file specified encoding (unicode)' {
+                $path = (Join-Path $TestDrive 'unicode.ini')
+
+                $getParam = @{
+                    Ensure   = 'Present'
+                    Path     = $path
+                    Section  = 'Section'
+                    Key      = 'Key'
+                    Value    = 'あいうえお'
+                    Encoding = 'unicode'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding unicode
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+
+                (Get-Encoding -Path $path).BodyName | Should -Be 'utf-16'
+            }
+
+            It 'Create new INI file specified encoding (BigEndianUnicode)' {
+                $path = (Join-Path $TestDrive 'BigEndianUnicode.ini')
+
+                $getParam = @{
+                    Ensure   = 'Present'
+                    Path     = $path
+                    Section  = 'Section'
+                    Key      = 'Key'
+                    Value    = 'あいうえお'
+                    Encoding = 'BigEndianUnicode'
+                }
+                    
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding BigEndianUnicode
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+
+                (Get-Encoding -Path $path).BodyName | Should -Be 'utf-16BE'
+            }
+        }
+
+        Context 'NewLine Code' {
+
+            It 'Create new INI file specified new line code (CRLF)' {
+                $path = (Join-Path $TestDrive 'CRLF.ini')
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $path
+                    Section = 'Section'
+                    Key     = 'Key'
+                    Value   = 'あいうえお'
+                    NewLine = 'CRLF'
+                }
+                        
+                { Set-TargetResource @getParam } | Should -Not -Throw
+    
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+    
+                Test-NewLineCode -Path $path | Should -Be 'CRLF'
+            }
+
+            It 'Create new INI file specified new line code (LF)' {
+                $path = (Join-Path $TestDrive 'LF.ini')
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $path
+                    Section = 'Section'
+                    Key     = 'Key'
+                    Value   = 'あいうえお'
+                    NewLine = 'LF'
+                }
+                        
+                { Set-TargetResource @getParam } | Should -Not -Throw
+    
+                Test-Path -LiteralPath $path | Should -Be $true
+                $content = Get-Content -Path $path -Encoding utf8
+                $content[0] | Should -Be '[Section]'
+                $content[1] | Should -Be 'Key=あいうえお'
+    
+                Test-NewLineCode -Path $path | Should -Be 'LF'
             }
         }
     }
