@@ -154,7 +154,7 @@ function Set-TargetResource {
                 $content | Out-String | Convert-NewLine -NewLine $NewLine | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $Path -Encoding Byte -NoNewline -Force
             }
             else {
-                $content | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
+                $content | Out-String | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
             }
         }
     }
@@ -175,7 +175,7 @@ function Set-TargetResource {
             $content | Out-String | Convert-NewLine -NewLine $NewLine | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $Path -Encoding Byte -NoNewline -Force
         }
         else {
-            $content | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
+            $content | Out-String | Convert-NewLine -NewLine $NewLine | Set-Content -Path $Path -Encoding $PSEncoder -NoNewline -Force
         }
     }
 } # end of Set-TargetResource
