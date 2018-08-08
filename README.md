@@ -79,6 +79,9 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
++ **2.0.1**
+    - Fixed issue that an incorrect INI file has been created when the encoding other than `UTF8NoBOM` was specified.
+
 + **2.0.0**
     - Added **NewLine** property for specifying the new line code. (`CRLF` or `LF`)
     - You can now specify `UTF8NoBOM` as Encoding.
