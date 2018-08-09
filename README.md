@@ -17,7 +17,7 @@ PowerShell DSC Resource to create ini file.
 ### cIniFile
 + [string] **Ensure** (Write):
     + Specify the key exists or not.
-    + The default value is Present. (Present | Absent)
+    + The default value is `Present`. (`Present` | `Absent`)
 
 + [string] **Path** (Key):
     + The path of the INI file.
@@ -28,19 +28,19 @@ PowerShell DSC Resource to create ini file.
 
 + [string] **Value** (Write):
     + The value corresponding to the key.
-    + If this param not specified, will set empty string `""`.
+    + If this param not specified, will set empty string.
 
 + [string] **Section** (Key):
     + The section to which the key belongs.
-    + **If the key doesn't need to belong section, you should set the value for an empty string.** `""`
+    + **If the key doesn't need to belong section, you should set the value for an empty string.**
 
 + [string] **Encoding** (Write):
     + You can choose text encoding for the INI file.
-    + utf8NoBOM (default) / utf8BOM / utf32 / unicode / bigendianunicode / ascii
+    + `UTF8NoBOM` (default) / `UTF8BOM` / `utf32` / `unicode` / `bigendianunicode` / `ascii`
 
 + [string] **NewLine** (Write):
     + You can choose new line code for the INI file.
-    + CRLF (default) / LF
+    + `CRLF` (default) / `LF`
 
 
 ## Examples
