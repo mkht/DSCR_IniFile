@@ -46,7 +46,7 @@ function Get-TargetResource {
         
         [Parameter(Mandatory = $false)]
         [Encoding]
-        $Encoding = 'utf8BOM',
+        $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
         [ValidateSet('CRLF', 'LF')]
@@ -131,7 +131,7 @@ function Set-TargetResource {
 
         [Parameter(Mandatory = $false)]
         [Encoding]
-        $Encoding = 'utf8BOM',
+        $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
         [ValidateSet('CRLF', 'LF')]
@@ -212,7 +212,7 @@ function Test-TargetResource {
 
         [Parameter(Mandatory = $false)]
         [Encoding]
-        $Encoding = 'utf8BOM',
+        $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
         [ValidateSet('CRLF', 'LF')]
@@ -278,7 +278,7 @@ function Get-IniFile {
         # specify file encoding
         [Parameter(Mandatory = $false)]
         [Encoding]
-        $Encoding = 'utf8BOM'
+        $Encoding = 'utf8NoBOM'
     )
 
     process {

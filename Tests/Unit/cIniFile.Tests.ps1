@@ -726,7 +726,7 @@ KeySA2=ValueSA2
 
         Context 'Encoding' {
 
-            It 'Create new INI file NOT specified encoding should be UTF8 with BOM' {
+            It 'Create new INI file NOT specified encoding should be UTF8 without BOM' {
                 $path = (Join-Path $TestDrive 'NonSpecified.ini')
 
                 $getParam = @{
@@ -745,7 +745,7 @@ KeySA2=ValueSA2
                 $content[1] | Should -Be 'Key=あいうえお'
 
                 (Get-Encoding -Path $path).BodyName | Should -Be 'utf-8'
-                Test-BOM -Path $path | Should -Be 'utf8BOM'
+                Test-BOM -Path $path | Should -Be $null #NoBOM
             }
             
             It 'Create new INI file specified encoding (UTF8NoBOM)' {

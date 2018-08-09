@@ -36,7 +36,7 @@ PowerShell DSC Resource to create ini file.
 
 + [string] **Encoding** (Write):
     + You can choose text encoding for the INI file.
-    + utf8BOM (default) / utf8NoBOM / utf32 / unicode / bigendianunicode / ascii
+    + utf8NoBOM (default) / utf8BOM / utf32 / unicode / bigendianunicode / ascii
 
 + [string] **NewLine** (Write):
     + You can choose new line code for the INI file.
@@ -79,6 +79,9 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
++ **3.0.0**
+    - **[BREAKING CHANGE]** Default output encoding is changed from `UTF8BOM` to `UTF8NoBOM`
+
 + **2.0.1**
     - Fixed issue that an incorrect INI file has been created when the encoding other than `UTF8NoBOM` was specified.
 
