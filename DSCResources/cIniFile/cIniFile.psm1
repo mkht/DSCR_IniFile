@@ -43,7 +43,7 @@ function Get-TargetResource {
         [AllowEmptyString()]
         [System.String]
         $Section = '_ROOT_',
-        
+
         [Parameter(Mandatory = $false)]
         [Encoding]
         $Encoding = 'utf8NoBOM',
@@ -148,7 +148,7 @@ function Set-TargetResource {
         if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
             $content = Get-IniFile -Path $Path -Encoding $Encoding | Remove-IniKey -Key $Key -Section $Section -PassThru | Out-IniString
-            
+
             #Output Ini file
             if (('utf8', 'utf8NoBOM') -eq $Encoding) {
                 $content | Out-String | Convert-NewLine -NewLine $NewLine | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $Path -Encoding Byte -NoNewline -Force
@@ -259,7 +259,7 @@ function Test-TargetResource {
     else {
         Write-Verbose "Test NOT Passed."
     }
-    
+
     return $Ret
 } # end of Test-TargetResource
 
@@ -428,7 +428,7 @@ function Remove-IniKey {
                 if ($InputObject.$Section.Contains($Key)) {
                     $InputObject.$Section.Remove($key)
 
-                    # when all key is removed, also remove section 
+                    # when all key is removed, also remove section
                     if ($InputObject.$Section.Count -le 0) {
                         $InputObject.Remove($Section)
                     }
@@ -459,7 +459,7 @@ function Convert-NewLine {
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
-        
+
     )
 
     if ($NewLine -eq 'LF') {

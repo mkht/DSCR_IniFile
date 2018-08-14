@@ -22,7 +22,7 @@ Configuration IniTest
             Key = 'MissingKey'
             Section = 'Section'
             Encoding = 'UTF8'
-        }  
+        }
     }
 }
 

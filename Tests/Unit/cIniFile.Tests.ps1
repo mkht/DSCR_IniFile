@@ -62,7 +62,7 @@ KeySA2=ValueSA2
                     Key     = 'Key1'
                     Section = ''
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Present'
                 $result.Path | Should -Be $getParam.Path
@@ -79,7 +79,7 @@ KeySA2=ValueSA2
                     Key     = 'KeySA1'
                     Section = 'SectionA'
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Present'
                 $result.Path | Should -Be $getParam.Path
@@ -96,7 +96,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionA'
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Present'
                 $result.Path | Should -Be $getParam.Path
@@ -107,7 +107,7 @@ KeySA2=ValueSA2
         }
 
         Context 'Ensure = Absent' {
-                
+
             It 'Should return Absent when ini file not found' {
                 $getParam = @{
                     Ensure  = 'Present'
@@ -115,7 +115,7 @@ KeySA2=ValueSA2
                     Key     = 'Key1'
                     Section = ''
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Absent'
                 $result.Path | Should -Be $getParam.Path
@@ -132,7 +132,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'NOTFOUND'
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Absent'
                 $result.Path | Should -Be $getParam.Path
@@ -149,7 +149,7 @@ KeySA2=ValueSA2
                     Key     = 'NoKey1'
                     Section = ''
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Absent'
                 $result.Path | Should -Be $getParam.Path
@@ -165,7 +165,7 @@ KeySA2=ValueSA2
                     Key     = 'NoKey1'
                     Section = 'SectionA'
                 }
-                    
+
                 $result = Get-TargetResource @getParam
                 $result.Ensure | Should -Be 'Absent'
                 $result.Path | Should -Be $getParam.Path
@@ -199,7 +199,7 @@ KeySA2=ValueSA2
                     Value   = 'Value1'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -212,7 +212,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueSA1'
                     Section = 'SectionA'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -224,7 +224,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionA'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -236,7 +236,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionB'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -248,7 +248,7 @@ KeySA2=ValueSA2
                     Key     = 'Key3'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -260,7 +260,7 @@ KeySA2=ValueSA2
                     Key     = 'Key1'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -273,7 +273,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -286,7 +286,7 @@ KeySA2=ValueSA2
                     Value   = 'Value1'
                     Section = 'SectionX'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -299,7 +299,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -312,7 +312,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
         }
@@ -328,7 +328,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -341,7 +341,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = 'SectionA'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -354,7 +354,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueSA1'
                     Section = 'SectionX'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -366,7 +366,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionX'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -379,7 +379,7 @@ KeySA2=ValueSA2
                     Value   = 'Value1'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $true
             }
 
@@ -392,7 +392,7 @@ KeySA2=ValueSA2
                     Value   = 'Value1'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -405,7 +405,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueSA2'
                     Section = 'SectionA'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -417,7 +417,7 @@ KeySA2=ValueSA2
                     Key     = 'Key3'
                     Section = ''
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
 
@@ -429,14 +429,14 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionB'
                 }
-                    
+
                 Test-TargetResource @getParam | Should -Be $false
             }
         }
     }
     #endregion Tests for Test-TargetResource
 
-    
+
     #region Tests for Set-TargetResource
     Describe 'cIniFile/Set-TargetResource' {
 
@@ -447,7 +447,7 @@ KeySA2=ValueSA2
                     Key2 = 'Value2'
                     Key3 = ''
                 }
-        
+
                 SectionA = [ordered]@{
                     KeySA1 = 'ValueSA1'
                     KeySA2 = 'ValueSA2'
@@ -476,7 +476,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueX'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -492,7 +492,7 @@ KeySA2=ValueSA2
                     Value   = 'Value4'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -509,7 +509,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueSA3'
                     Section = 'SectionA'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -525,7 +525,7 @@ KeySA2=ValueSA2
                     Value   = 'ValueSC1'
                     Section = 'SectionC'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -542,7 +542,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionC'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -558,7 +558,7 @@ KeySA2=ValueSA2
                     Value   = 'Value2X'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -573,7 +573,7 @@ KeySA2=ValueSA2
                     Key     = 'Key2'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Encoding utf8
@@ -589,7 +589,7 @@ KeySA2=ValueSA2
                     Value   = 'Value1'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Raw -Encoding utf8
@@ -607,7 +607,7 @@ KeySA2=ValueSA2
                     Key     = 'Key1'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $false
@@ -622,7 +622,7 @@ KeySA2=ValueSA2
                     Key     = 'KeyX'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Raw -Encoding utf8
@@ -637,7 +637,7 @@ KeySA2=ValueSA2
                     Key     = 'Key1'
                     Section = 'SectionA'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Raw -Encoding utf8
@@ -653,7 +653,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionX'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $content = Get-Content -Path $path -Raw -Encoding utf8
@@ -669,7 +669,7 @@ KeySA2=ValueSA2
                     Key     = 'Key2'
                     Section = ''
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $path | Should -Not -FileContentMatch 'Key2'
@@ -684,7 +684,7 @@ KeySA2=ValueSA2
                     Key     = 'KeySA1'
                     Section = 'SectionA'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $path | Should -Not -FileContentMatch 'KeySA1'
@@ -699,7 +699,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionA'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $path | Should -Not -FileContentMatch 'SectionA'
@@ -716,7 +716,7 @@ KeySA2=ValueSA2
                     Key     = ''
                     Section = 'SectionB'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 $path | Should -Not -FileContentMatch 'SectionB'
@@ -736,7 +736,7 @@ KeySA2=ValueSA2
                     Key     = 'Key'
                     Value   = 'あいうえお'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -747,7 +747,7 @@ KeySA2=ValueSA2
                 (Get-Encoding -Path $path).BodyName | Should -Be 'utf-8'
                 Test-BOM -Path $path | Should -Be $null #NoBOM
             }
-            
+
             It 'Create new INI file specified encoding (UTF8NoBOM)' {
                 $path = (Join-Path $TestDrive 'UTF8NoBOM.ini')
 
@@ -759,7 +759,7 @@ KeySA2=ValueSA2
                     Value    = 'あいうえお'
                     Encoding = 'UTF8NoBOM'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -782,7 +782,7 @@ KeySA2=ValueSA2
                     Value    = 'あいうえお'
                     Encoding = 'UTF8BOM'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -805,7 +805,7 @@ KeySA2=ValueSA2
                     Value    = 'あいうえお'
                     Encoding = 'unicode'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -827,7 +827,7 @@ KeySA2=ValueSA2
                     Value    = 'あいうえお'
                     Encoding = 'BigEndianUnicode'
                 }
-                    
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
 
                 Test-Path -LiteralPath $path | Should -Be $true
@@ -851,14 +851,14 @@ KeySA2=ValueSA2
                     Value   = 'あいうえお'
                     NewLine = 'CRLF'
                 }
-                        
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
-    
+
                 Test-Path -LiteralPath $path | Should -Be $true
                 $content = Get-Content -Path $path -Encoding utf8
                 $content[0] | Should -Be '[Section]'
                 $content[1] | Should -Be 'Key=あいうえお'
-    
+
                 Test-NewLineCode -Path $path | Should -Be 'CRLF'
             }
 
@@ -872,14 +872,14 @@ KeySA2=ValueSA2
                     Value   = 'あいうえお'
                     NewLine = 'LF'
                 }
-                        
+
                 { Set-TargetResource @getParam } | Should -Not -Throw
-    
+
                 Test-Path -LiteralPath $path | Should -Be $true
                 $content = Get-Content -Path $path -Encoding utf8
                 $content[0] | Should -Be '[Section]'
                 $content[1] | Should -Be 'Key=あいうえお'
-    
+
                 Test-NewLineCode -Path $path | Should -Be 'LF'
             }
         }
@@ -901,7 +901,7 @@ KeySA2=ValueSA2
         It 'Read ini file and convert to ordered hash' {
 
             $result = Get-IniFile -Path 'TestDrive:\MocIni1.ini'
-    
+
             $result | Should -BeOfType System.Collections.Specialized.OrderedDictionary
             $result.Count | Should -Be 3
             $result._ROOT_.Count | Should -Be 3
