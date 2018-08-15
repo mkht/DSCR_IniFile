@@ -1,4 +1,4 @@
-﻿Enum Ensure{
+﻿Enum Ensure {
     Absent
     Present
 }
@@ -21,7 +21,7 @@ function Get-TargetResource {
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
+        [ValidateSet('Present', 'Absent')]
         [System.String]
         $Ensure = 'Present',
 
@@ -46,7 +46,7 @@ function Get-TargetResource {
 
         [Parameter(Mandatory = $false)]
         [string]
-        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
@@ -107,7 +107,7 @@ function Set-TargetResource {
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
+        [ValidateSet('Present', 'Absent')]
         [System.String]
         $Ensure = 'Present',
 
@@ -131,7 +131,7 @@ function Set-TargetResource {
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
-        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         [string]
         $Encoding = 'utf8NoBOM',
 
@@ -145,7 +145,7 @@ function Set-TargetResource {
 
     if (-not $Section) {$Section = '_ROOT_'}
 
-    # Ensure = "Absent"
+    # Ensure = 'Absent'
     if ($Ensure -eq [Ensure]::Absent) {
         if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
@@ -161,7 +161,7 @@ function Set-TargetResource {
         }
     }
     else {
-        # Ensure = "Present"
+        # Ensure = 'Present'
         $Ini = [ordered]@{}
         if (Test-Path $Path) {
             $Ini = Get-IniFile -Path $Path -Encoding $Encoding
@@ -189,7 +189,7 @@ function Test-TargetResource {
     param
     (
         [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
+        [ValidateSet('Present', 'Absent')]
         [System.String]
         $Ensure = 'Present',
 
@@ -213,7 +213,7 @@ function Test-TargetResource {
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
-        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         [string]
         $Encoding = 'utf8NoBOM',
 
@@ -260,7 +260,7 @@ function Test-TargetResource {
         Write-Verbose ('Test Passed. Nothing needs to do')
     }
     else {
-        Write-Verbose "Test NOT Passed."
+        Write-Verbose 'Test NOT Passed.'
     }
 
     return $Ret
@@ -285,7 +285,7 @@ function Get-IniFile {
     )
 
     process {
-        # Write-Verbose ("Loading file from {0}" -f $Path)
+        # Write-Verbose ('Loading file from {0}' -f $Path)
         $PSEncoder = Get-PSEncoding -Encoding $Encoding
         $Content = Get-Content -Path $Path -Encoding $PSEncoder
         $CurrentSection = '_ROOT_'
@@ -295,7 +295,7 @@ function Get-IniFile {
         foreach ($line in $Content) {
             $line = $line.Trim()
             if ($line -match '^;') {
-                # Write-Verbose ("Comment")
+                # Write-Verbose ('Comment')
                 $line = ($line.split(';')[0]).Trim()
             }
 
