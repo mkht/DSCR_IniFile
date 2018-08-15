@@ -104,6 +104,7 @@ function Get-TargetResource {
 
 
 function Set-TargetResource {
+    [CmdletBinding()]
     param
     (
         [parameter(Mandatory = $false)]
