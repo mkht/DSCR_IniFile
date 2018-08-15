@@ -1,10 +1,13 @@
 DSCR_IniFile
 ====
 
+[![Build status](https://ci.appveyor.com/api/projects/status/2i2u8q4jn9bwgmrd/branch/master?svg=true)](https://ci.appveyor.com/project/mkht/dscr-inifile/branch/master)
+[![codecov](https://codecov.io/gh/mkht/DSCR_IniFile/branch/master/graph/badge.svg)](https://codecov.io/gh/mkht/DSCR_IniFile)
+
 PowerShell DSC Resource to create INI file.
 
 ## Install
-You can install Resource through [PowerShell Gallery](https://www.powershellgallery.com/packages/DSCR_IniFile/).
+You can install Resource from [PowerShell Gallery](https://www.powershellgallery.com/packages/DSCR_IniFile/).
 ```Powershell
 Install-Module -Name DSCR_IniFile
 ```
