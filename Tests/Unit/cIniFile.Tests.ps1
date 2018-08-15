@@ -1,10 +1,7 @@
 ﻿#region HEADER
-
 $script:moduleRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
-
 Import-Module (Join-Path $script:moduleRoot '\DSCResources\cIniFile\cIniFile.psm1') -Force
-Import-Module (Join-Path $PSScriptRoot '\TestHelper\TestHelper.psm1') -Force
-
+Import-Module (Join-Path $script:moduleRoot '\Tests\Unit\TestHelper\TestHelper.psm1') -Force -Scope Global
 #endregion HEADER
 
 # Begin Testing

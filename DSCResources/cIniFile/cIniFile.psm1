@@ -1,4 +1,4 @@
-﻿Enum Ensure{
+﻿Enum Ensure {
     Absent
     Present
 }
@@ -20,35 +20,36 @@ function Get-TargetResource {
     [OutputType([System.Collections.Hashtable])]
     param
     (
-        [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
-        [System.String]
+        [Parameter()]
+        [ValidateSet('Present', 'Absent')]
+        [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
-        [System.String]
+        [Parameter(Mandatory = $true)]
+        [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
-        [Encoding]
+        [Parameter()]
+        [string]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -103,37 +104,39 @@ function Get-TargetResource {
 
 
 function Set-TargetResource {
+    [CmdletBinding()]
     param
     (
-        [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
-        [System.String]
+        [Parameter()]
+        [ValidateSet('Present', 'Absent')]
+        [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
-        [System.String]
+        [Parameter(Mandatory = $true)]
+        [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
-        [Encoding]
+        [Parameter()]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
+        [string]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -143,7 +146,7 @@ function Set-TargetResource {
 
     if (-not $Section) {$Section = '_ROOT_'}
 
-    # Ensure = "Absent"
+    # Ensure = 'Absent'
     if ($Ensure -eq [Ensure]::Absent) {
         if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
@@ -159,7 +162,7 @@ function Set-TargetResource {
         }
     }
     else {
-        # Ensure = "Present"
+        # Ensure = 'Present'
         $Ini = [ordered]@{}
         if (Test-Path $Path) {
             $Ini = Get-IniFile -Path $Path -Encoding $Encoding
@@ -183,38 +186,39 @@ function Set-TargetResource {
 
 function Test-TargetResource {
     [CmdletBinding()]
-    [OutputType([System.Boolean])]
+    [OutputType([bool])]
     param
     (
-        [parameter(Mandatory = $false)]
-        [ValidateSet("Present", "Absent")]
-        [System.String]
+        [Parameter()]
+        [ValidateSet('Present', 'Absent')]
+        [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
-        [System.String]
+        [Parameter(Mandatory = $true)]
+        [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
-        [Encoding]
+        [Parameter()]
+        [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
+        [string]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -257,7 +261,7 @@ function Test-TargetResource {
         Write-Verbose ('Test Passed. Nothing needs to do')
     }
     else {
-        Write-Verbose "Test NOT Passed."
+        Write-Verbose 'Test NOT Passed.'
     }
 
     return $Ret
@@ -266,23 +270,24 @@ function Test-TargetResource {
 
 function Get-IniFile {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
         # Set Target full path to INI
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [validateScript( {Test-Path $_})]
         [Alias('File')]
         [string]
         $Path,
 
         # specify file encoding
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [Encoding]
         $Encoding = 'utf8NoBOM'
     )
 
     process {
-        # Write-Verbose ("Loading file from {0}" -f $Path)
+        # Write-Verbose ('Loading file from {0}' -f $Path)
         $PSEncoder = Get-PSEncoding -Encoding $Encoding
         $Content = Get-Content -Path $Path -Encoding $PSEncoder
         $CurrentSection = '_ROOT_'
@@ -292,7 +297,7 @@ function Get-IniFile {
         foreach ($line in $Content) {
             $line = $line.Trim()
             if ($line -match '^;') {
-                # Write-Verbose ("Comment")
+                # Write-Verbose ('Comment')
                 $line = ($line.split(';')[0]).Trim()
             }
 
@@ -319,9 +324,10 @@ function Get-IniFile {
 
 function Out-IniString {
     [CmdletBinding()]
+    [OutputType([string[]])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject
     )
@@ -356,13 +362,14 @@ function Out-IniString {
 
 function Set-IniKey {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]$Key,
 
@@ -373,6 +380,7 @@ function Set-IniKey {
         [Parameter()]
         [string]$Section = '_ROOT_',
 
+        [Parameter()]
         [switch]$PassThru
     )
 
@@ -406,19 +414,21 @@ function Set-IniKey {
 
 function Remove-IniKey {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]$Key,
 
-        [parameter()]
+        [Parameter()]
         [string]$Section = '_ROOT_',
 
+        [Parameter()]
         [switch]$PassThru
     )
 
@@ -451,7 +461,7 @@ function Remove-IniKey {
 function Convert-NewLine {
     [OutputType([string])]
     param(
-        [Parameter(Mandatory, Position = 0, ValueFromPipeline)]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline)]
         [string]
         $InputObject,
 
@@ -474,7 +484,7 @@ function Convert-NewLine {
 function Get-PSEncoding {
     [OutputType([string])]
     param(
-        [Parameter(Mandatory, Position = 0)]
+        [Parameter(Mandatory = $true, Position = 0)]
         [Encoding]
         $Encoding
     )
