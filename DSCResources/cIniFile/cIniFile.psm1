@@ -274,7 +274,7 @@ function Get-IniFile {
     param
     (
         # Set Target full path to INI
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [validateScript( {Test-Path $_})]
         [Alias('File')]
         [string]
@@ -327,7 +327,7 @@ function Out-IniString {
     [OutputType([string[]])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject
     )
@@ -365,11 +365,11 @@ function Set-IniKey {
     [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]$Key,
 
@@ -417,11 +417,11 @@ function Remove-IniKey {
     [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
+        [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline)]
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]$Key,
 
@@ -461,7 +461,7 @@ function Remove-IniKey {
 function Convert-NewLine {
     [OutputType([string])]
     param(
-        [Parameter(Mandatory, Position = 0, ValueFromPipeline)]
+        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline)]
         [string]
         $InputObject,
 
@@ -484,7 +484,7 @@ function Convert-NewLine {
 function Get-PSEncoding {
     [OutputType([string])]
     param(
-        [Parameter(Mandatory, Position = 0)]
+        [Parameter(Mandatory = $true, Position = 0)]
         [Encoding]
         $Encoding
     )
