@@ -45,7 +45,8 @@ function Get-TargetResource {
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
-        [Encoding]
+        [string]
+        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
         $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
@@ -130,7 +131,8 @@ function Set-TargetResource {
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
-        [Encoding]
+        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
+        [string]
         $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
@@ -211,7 +213,8 @@ function Test-TargetResource {
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
-        [Encoding]
+        [ValidateSet("utf8", "utf8NoBOM", "utf8BOM", "utf32", "unicode", "bigendianunicode", "ascii", "Default")]
+        [string]
         $Encoding = 'utf8NoBOM',
 
         [Parameter(Mandatory = $false)]
