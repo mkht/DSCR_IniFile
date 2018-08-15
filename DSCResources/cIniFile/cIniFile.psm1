@@ -20,36 +20,36 @@ function Get-TargetResource {
     [OutputType([System.Collections.Hashtable])]
     param
     (
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('Present', 'Absent')]
         [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
         [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [string]
         [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -107,36 +107,36 @@ function Set-TargetResource {
     [CmdletBinding()]
     param
     (
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('Present', 'Absent')]
         [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
         [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         [string]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -189,36 +189,36 @@ function Test-TargetResource {
     [OutputType([bool])]
     param
     (
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('Present', 'Absent')]
         [string]
         $Ensure = 'Present',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [string]
         $Path,
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Key,
 
-        [parameter(Mandatory = $false)]
+        [Parameter()]
         [AllowEmptyString()]
         [string]
         $Value = '',
 
-        [parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
         [string]
         $Section = '_ROOT_',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('utf8', 'utf8NoBOM', 'utf8BOM', 'utf32', 'unicode', 'bigendianunicode', 'ascii', 'Default')]
         [string]
         $Encoding = 'utf8NoBOM',
 
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [ValidateSet('CRLF', 'LF')]
         [string]
         $NewLine = 'CRLF'
@@ -281,7 +281,7 @@ function Get-IniFile {
         $Path,
 
         # specify file encoding
-        [Parameter(Mandatory = $false)]
+        [Parameter()]
         [Encoding]
         $Encoding = 'utf8NoBOM'
     )
@@ -380,6 +380,7 @@ function Set-IniKey {
         [Parameter()]
         [string]$Section = '_ROOT_',
 
+        [Parameter()]
         [switch]$PassThru
     )
 
@@ -420,13 +421,14 @@ function Remove-IniKey {
         [System.Collections.Specialized.OrderedDictionary]
         $InputObject,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [AllowEmptyString()]
         [string]$Key,
 
-        [parameter()]
+        [Parameter()]
         [string]$Section = '_ROOT_',
 
+        [Parameter()]
         [switch]$PassThru
     )
 
