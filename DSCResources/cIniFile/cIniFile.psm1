@@ -269,6 +269,7 @@ function Test-TargetResource {
 
 function Get-IniFile {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
         # Set Target full path to INI
@@ -322,6 +323,7 @@ function Get-IniFile {
 
 function Out-IniString {
     [CmdletBinding()]
+    [OutputType([string[]])]
     param
     (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
@@ -359,6 +361,7 @@ function Out-IniString {
 
 function Set-IniKey {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
@@ -409,6 +412,7 @@ function Set-IniKey {
 
 function Remove-IniKey {
     [CmdletBinding()]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param
     (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)]
