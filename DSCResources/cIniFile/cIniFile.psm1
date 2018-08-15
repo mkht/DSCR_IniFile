@@ -22,26 +22,26 @@ function Get-TargetResource {
     (
         [parameter(Mandatory = $false)]
         [ValidateSet('Present', 'Absent')]
-        [System.String]
+        [string]
         $Ensure = 'Present',
 
         [parameter(Mandatory = $true)]
-        [System.String]
+        [string]
         $Path,
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
         [parameter(Mandatory = $false)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
@@ -108,26 +108,26 @@ function Set-TargetResource {
     (
         [parameter(Mandatory = $false)]
         [ValidateSet('Present', 'Absent')]
-        [System.String]
+        [string]
         $Ensure = 'Present',
 
         [parameter(Mandatory = $true)]
-        [System.String]
+        [string]
         $Path,
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
         [parameter(Mandatory = $false)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
@@ -185,31 +185,31 @@ function Set-TargetResource {
 
 function Test-TargetResource {
     [CmdletBinding()]
-    [OutputType([System.Boolean])]
+    [OutputType([bool])]
     param
     (
         [parameter(Mandatory = $false)]
         [ValidateSet('Present', 'Absent')]
-        [System.String]
+        [string]
         $Ensure = 'Present',
 
         [parameter(Mandatory = $true)]
-        [System.String]
+        [string]
         $Path,
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Key,
 
         [parameter(Mandatory = $false)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Value = '',
 
         [parameter(Mandatory = $true)]
         [AllowEmptyString()]
-        [System.String]
+        [string]
         $Section = '_ROOT_',
 
         [Parameter(Mandatory = $false)]
