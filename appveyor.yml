@@ -5,7 +5,7 @@
 version: 1.0.{build}
 
 # Needed if project name contains underscore
-clone_folder: c:\projects\DSCR_IniFile
+clone_folder: C:\projects\DSCR_IniFile
 
 init:
   # Needed for publishing of examples, build worker defaults to core.autocrlf=input.
