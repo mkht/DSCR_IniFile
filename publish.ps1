@@ -22,7 +22,7 @@ if ($ExcludeDir -notcontains '.git') {
 }
 
 try {
-    robocopy $ModuleDir $Destination /MIR /XD ($ExcludeDir -join ' ') /XF "publish.ps1" >$null
+    robocopy $ModuleDir $Destination /MIR /XD ($ExcludeDir -join ' ') /XF "publish.ps1" "appveyor.yml" >$null
 
     Set-Location $Destination
     Publish-Module -Path ./ -NuGetApiKey $NugetApiKey -Verbose -WhatIf:$WhatIf
