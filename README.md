@@ -82,8 +82,9 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
-+ **Unreleased**
++ **3.0.1**
     - Fix PSSA issues (PSAvoidTrailingWhitespace)
+    - Remove unnecessary files in the published data
 
 + **3.0.0**
     - **[BREAKING CHANGE]** Default output encoding is changed from `UTF8BOM` to `UTF8NoBOM`
