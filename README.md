@@ -82,6 +82,9 @@ Animal_A=Ant
 
 ----
 ## ChangeLog
++ **Unreleased**
+    - Fix typo in the module name
+
 + **3.0.1**
     - Fix PSSA issues (PSAvoidTrailingWhitespace)
     - Remove unnecessary files in the published data

@@ -2,7 +2,7 @@
 
 Configuration IniTest
 {
-    Import-DscResource -ModuleName DSCR_IniFIle
+    Import-DscResource -ModuleName DSCR_IniFile
     Node localhost
     {
         cIniFile IniTest
