@@ -480,6 +480,22 @@ KeySA2=ValueSA2
                 Get-Content -Path $path -Encoding utf8 | Should -Be 'KeyX=ValueX'
             }
 
+            It 'Create new ini file when the file not exist (create with parent folder)' {
+                $path = (Join-Path $TestDrive '\parent folder\MockIniX.ini')
+                $getParam = @{
+                    Ensure  = 'Present'
+                    Path    = $path
+                    Key     = 'KeyX'
+                    Value   = 'ValueX'
+                    Section = ''
+                }
+
+                { Set-TargetResource @getParam } | Should -Not -Throw
+
+                Test-Path -LiteralPath $path | Should -Be $true
+                Get-Content -Path $path -Encoding utf8 | Should -Be 'KeyX=ValueX'
+            }
+
             It 'Add Key Value Pair to ini (ROOT section)' {
                 $path = (Join-Path $TestDrive 'MockIni.ini')
                 $getParam = @{
@@ -892,7 +908,7 @@ KeySA2=ValueSA2
 
         It 'Should throw if ini file not exist' {
 
-            { Get-IniFile -Path 'TestDrive:\MocIniX.ini' } |Should -Throw
+            { Get-IniFile -Path 'TestDrive:\MocIniX.ini' } | Should -Throw
         }
 
         It 'Read ini file and convert to ordered hash' {
