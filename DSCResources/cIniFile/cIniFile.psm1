@@ -1,4 +1,4 @@
-﻿Enum Ensure {
+Enum Ensure {
     Absent
     Present
 }
@@ -150,7 +150,7 @@ function Set-TargetResource {
     if ($Ensure -eq [Ensure]::Absent) {
         if (Test-Path $Path) {
             Write-Verbose ("Remove Key:{0}; Section:{1} from '{2}'" -f $Key, $Section, $Path)
-            $content = Get-IniFile -Path $Path -Encoding $Encoding | Remove-IniKey -Key $Key -Section $Section -PassThru | Out-IniString
+            $content = Get-IniFile -Path $Path -Encoding $Encoding | Remove-IniKey -Key $Key -Section $Section -PassThru | ConvertTo-IniString
 
             #Output Ini file
             if (('utf8', 'utf8NoBOM') -eq $Encoding) {
@@ -171,7 +171,7 @@ function Set-TargetResource {
             Write-Verbose ("Create new file '{0}'" -f $Path)
             New-Item $Path -ItemType File -Force
         }
-        $content = $Ini | Set-IniKey -Key $Key -Value $Value -Section $Section -PassThru | Out-IniString
+        $content = $Ini | Set-IniKey -Key $Key -Value $Value -Section $Section -PassThru | ConvertTo-IniString
 
         #Output Ini file
         if (('utf8', 'utf8NoBOM') -eq $Encoding) {
@@ -322,7 +322,26 @@ function Get-IniFile {
     }
 }
 
-function Out-IniString {
+
+<#
+.SYNOPSIS
+Convert dictionary to ini expression string
+
+.PARAMETER InputObject
+[System.Collections.Specialized.OrderedDictionary]
+The Ordered Dictionary you wish to convert to a string.
+
+.OUTPUTS
+[string]
+
+.EXAMPLE
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> ConvertTo-IniString -InputObject $Dictionary
+[Section1]
+Key1=Value1
+Key2=Value2
+#>
+function ConvertTo-IniString {
     [CmdletBinding()]
     [OutputType([string[]])]
     param
