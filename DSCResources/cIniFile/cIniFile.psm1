@@ -1,4 +1,4 @@
-Enum Ensure {
+﻿Enum Ensure {
     Absent
     Present
 }
@@ -268,6 +268,25 @@ function Test-TargetResource {
 } # end of Test-TargetResource
 
 
+<#
+.SYNOPSIS
+Load ini file and convert to the dictionary object
+
+.PARAMETER Path
+The path of the ini file.
+
+.PARAMETER Encoding
+You can specify the encoding of the ini file.
+
+.OUTPUTS
+[System.Collections.Specialized.OrderedDictionary]
+
+.EXAMPLE
+PS> Get-IniFile -Path C:\sample.ini
+
+.NOTES
+General notes
+#>
 function Get-IniFile {
     [CmdletBinding()]
     [OutputType([System.Collections.Specialized.OrderedDictionary])]
@@ -379,6 +398,40 @@ function ConvertTo-IniString {
 }
 
 
+<#
+.SYNOPSIS
+Set a key value pair to the dictionary.
+
+.PARAMETER InputObject
+[System.Collections.Specialized.OrderedDictionary]
+
+.PARAMETER Key
+[string]
+The key name
+
+.PARAMETER Value
+[string]
+The value of the key
+
+.PARAMETER Section
+[string]
+The name of the section to which the key belongs.
+If the key doesn't need to belong section, you don't need specify this parameter.
+
+.PARAMETER PassThru
+[switch]
+If specified, This function will output modified dictionary.
+
+.OUTPUTS
+[System.Collections.Specialized.OrderedDictionary]
+
+.EXAMPLE
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> $Dictionary | Set-IniKey -Key 'Key2' -Value 'ModValue2' -Section 'Section1' -PassThru | ConvertTo-IniString
+[Section1]
+Key1=Value1
+Key2=ModValue2
+#>
 function Set-IniKey {
     [CmdletBinding()]
     [OutputType([System.Collections.Specialized.OrderedDictionary])]
@@ -431,6 +484,35 @@ function Set-IniKey {
 }
 
 
+<#
+.SYNOPSIS
+Remove a key value pair from dictionary.
+
+.PARAMETER InputObject
+[System.Collections.Specialized.OrderedDictionary]
+
+.PARAMETER Key
+[string]
+The key name
+
+.PARAMETER Section
+[string]
+The name of the section to which the key belongs.
+If the key doesn't need to belong section, you don't need specify this parameter.
+
+.PARAMETER PassThru
+[switch]
+If specified, This function will output modified dictionary.
+
+.OUTPUTS
+[System.Collections.Specialized.OrderedDictionary]
+
+.EXAMPLE
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> $Dictionary | Remove-IniKey -Key 'Key2' -Section 'Section1' -PassThru | ConvertTo-IniString
+[Section1]
+Key1=Value1
+#>
 function Remove-IniKey {
     [CmdletBinding()]
     [OutputType([System.Collections.Specialized.OrderedDictionary])]

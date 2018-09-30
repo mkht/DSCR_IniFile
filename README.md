@@ -12,7 +12,8 @@ You can install Resource from [PowerShell Gallery](https://www.powershellgallery
 Install-Module -Name DSCR_IniFile
 ```
 
-## Resources
+----
+## DSC Resources
 * **cIniFile**
 PowerShell DSC Resource to create ini file.
 
@@ -81,8 +82,73 @@ Animal_A=Ant
 ```
 
 ----
+## Functions
+
+### Get-IniFile
+Load ini file and convert to the dictionary object
+
++ **Syntax**
+```PowerShell
+Get-IniFile [-Path] <string> [-Encoding { <utf8> | <utf8BOM> | <utf32> | <unicode> | <bigendianunicode> | <ascii> | <Default> }]
+```
+
+
+### ConvertTo-IniString
+Convert dictionary object to ini expression string
+
++ **Syntax**
+```PowerShell
+ConvertTo-IniString [-InputObject] <System.Collections.Specialized.OrderedDictionary>
+```
+
++ **Example**
+```PowerShell
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> ConvertTo-IniString -InputObject $Dictionary
+[Section1]
+Key1=Value1
+Key2=Value2
+```
+
+
+### Set-IniKey
+Set a key value pair to the dictionary
+
++ **Syntax**
+```PowerShell
+Set-IniKey [-InputObject] <System.Collections.Specialized.OrderedDictionary> -Key <string> [-Value <string>] [-Section <string>] [-PassThru]
+```
+
++ **Example**
+```PowerShell
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> $Dictionary | Set-IniKey -Key 'Key2' -Value 'ModValue2' -Section 'Section1' -PassThru | ConvertTo-IniString
+[Section1]
+Key1=Value1
+Key2=ModValue2
+```
+
+
+### Remove-IniKey
+Remove a key value pair from dictionary
+
++ **Syntax**
+```PowerShell
+Remove-IniKey [-InputObject] <System.Collections.Specialized.OrderedDictionary> -Key <string> [-Section <string>] [-PassThru]
+```
+
++ **Example**
+```PowerShell
+PS> $Dictionary = [ordered]@{ Section1 = @{ Key1 = 'Value1'; Key2 = 'Value2' } }
+PS> $Dictionary | Remove-IniKey -Key 'Key2' -Section 'Section1' -PassThru | ConvertTo-IniString
+[Section1]
+Key1=Value1
+```
+
+----
 ## ChangeLog
 + **Unreleased**
+    - Export useful functions (`Get-IniFile`, `ConvertTo-IniString`, `Set-IniKey`, `Remove-IniKey`)
     - Fix typo in the module name
 
 + **3.0.1**
