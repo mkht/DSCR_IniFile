@@ -3,7 +3,7 @@
     RootModule           = 'DSCR_IniFile.psm1'
 
     # Version number of this module.
-    ModuleVersion        = '3.0.1'
+    ModuleVersion        = '3.1.0'
 
     # ID used to uniquely identify this module
     GUID                 = '372ae78d-ef58-4c3d-8df7-987d07f9a1c2'

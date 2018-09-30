@@ -147,7 +147,7 @@ Key1=Value1
 
 ----
 ## ChangeLog
-+ **Unreleased**
++ **3.1.0**
     - Export useful functions (`Get-IniFile`, `ConvertTo-IniString`, `Set-IniKey`, `Remove-IniKey`)
     - Fix typo in the module name
 
