@@ -519,4 +519,12 @@ function Get-PSEncoding {
     }
 }
 
-Export-ModuleMember -Function *-TargetResource
+Export-ModuleMember -Function @(
+    'Get-TargetResource',
+    'Set-TargetResource',
+    'Test-TargetResource',
+    'Get-IniFile',
+    'ConvertTo-IniString',
+    'Set-IniKey',
+    'Remove-IniKey'
+)

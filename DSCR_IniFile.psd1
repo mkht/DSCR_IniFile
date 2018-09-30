@@ -1,4 +1,7 @@
 @{
+
+    RootModule           = 'DSCR_IniFile.psm1'
+
     # Version number of this module.
     ModuleVersion        = '3.0.1'
 
@@ -24,7 +27,12 @@
     # CLRVersion = ''
 
     # Functions to export from this module
-    FunctionsToExport    = @()
+    FunctionsToExport    = @(
+        'Get-IniFile',
+        'ConvertTo-IniString',
+        'Set-IniKey',
+        'Remove-IniKey'
+    )
 
     # Cmdlets to export from this module
     CmdletsToExport      = @()
