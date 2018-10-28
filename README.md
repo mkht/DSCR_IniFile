@@ -1,6 +1,10 @@
 DSCR_IniFile
 ====
 
+## This repository is no longer maintained ! :no_entry:
+Please use [DSCR_FileContent](https://github.com/mkht/DSCR_FileContent/) module.
+
+----
 [![Build status](https://ci.appveyor.com/api/projects/status/2i2u8q4jn9bwgmrd/branch/master?svg=true)](https://ci.appveyor.com/project/mkht/dscr-inifile/branch/master)
 [![codecov](https://codecov.io/gh/mkht/DSCR_IniFile/branch/master/graph/badge.svg)](https://codecov.io/gh/mkht/DSCR_IniFile)
 
